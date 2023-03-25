@@ -1,0 +1,12 @@
+{
+  "productName": "Electron 测试版",
+  "appId": "com.electron.desktop",
+  "files": ["dist", "dist-electron"],
+  "directories": {
+    "output": "dist-electron"
+  },
+  "nsis": {
+    "oneClick": false,
+    "createDesktopShortcut": true
+  }
+}
