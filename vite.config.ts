@@ -27,6 +27,19 @@ export default defineConfig({
   },
 
   build: {
-    outDir: 'dist-electron', // 指定输出路径（相对于项目根目录)
+    outDir: 'dist-electron', // 指定打包文件的输出目录。默认值为 dist ，当 dist 被占用或公司有统一命名规范时，可进行调整
+    assetsDir: 'assets', // 指定生成静态资源的存放目录。默认值为 assets ，可根据需要进行调整
+    assetsInlineLimit: 4096, // 图片转 base64 编码的阈值。为防止过多的 http 请求，Vite 会将小于此阈值的图片转为 base64 格式
+    chunkSizeWarningLimit: 500, // 规定触发警告的 chunk 大小。（以 kbs 为单位）
+    cssCodeSplit: true, // 启用/禁用 CSS 代码拆分
+    sourcemap: false, // 构建后是否生成 source map 文件
+    copyPublicDir: true, // 是否在构建阶段将 publicDir 目录中的所有文件复制到 outDir 目录中
+    minify: 'terser', // 指定使用哪种混淆器。默认为 esbuild，它比 terser 快 20-40 倍，压缩率只差 1%-2%
+    terserOptions: {
+      compress: {
+        drop_console: true, // 正式环境移除 console
+        drop_debugger: true, // 正式环境移除 debugger
+      },
+    },
   },
 })
