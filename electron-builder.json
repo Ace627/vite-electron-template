@@ -1,0 +1,11 @@
+{
+  "productName": "当时只道是寻常",
+  "appId": "electron.vite.vue.element",
+  "files": ["dist/**/*", "dist-electron/**/*"],
+
+  "nsis": {
+    "oneClick": false,
+    "language": "2052",
+    "allowToChangeInstallationDirectory": true
+  }
+}
