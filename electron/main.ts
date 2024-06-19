@@ -1,6 +1,8 @@
+import path from 'path'
 import { app, BrowserWindow } from 'electron'
 import { __dirname, __filename, isDevelopment } from './utils/constants'
-import path from 'path'
+
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控制台关于 webSecurity 的警告日志
 
 function createWindow() {
   const win = new BrowserWindow({
