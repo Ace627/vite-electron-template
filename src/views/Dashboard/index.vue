@@ -2,7 +2,7 @@
   <div class="app-content">
     <h1 class="text-64px font-bold">Hello World!</h1>
 
-    <button class="flex-center btn" @click="showModal">测试通知框</button>
+    <button class="flex-center mt-16px btn" @click="setTitle">通知主进程把窗口标题改为渲染进程传递过去的数据</button>
   </div>
 </template>
 
@@ -10,7 +10,12 @@
 defineOptions({ name: 'Dashboard' })
 
 function showModal() {
-  window.electron.sendChannel(`show-modal`)
+  // window.electron.sendChannel(`show-modal`)
+  // window.electron.fullScreen()
+}
+
+function setTitle() {
+  window.electron.send(`setTitle`, `通知主进程把窗口标题改为渲染进程传递过去的数据`)
 }
 </script>
 

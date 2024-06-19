@@ -5,6 +5,9 @@ import { isDevelopment, defaultTitle } from './config/constants'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控制台关于 webSecurity 的警告日志
 
+// 演示用
+ipcMain.on(`setTitle`, (_, title: string) => mainWindow.setTitle(title))
+
 let mainWindow: BrowserWindow
 
 function createWindow() {
@@ -57,5 +60,6 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
+    mainWindow = null
   }
 })
