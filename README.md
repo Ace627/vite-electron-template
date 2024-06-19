@@ -1,4 +1,4 @@
-# vite-vue3-template
+# vite-electron-template
 
 ## 项目拉取
 

@@ -6,3 +6,6 @@ export const filename = import.meta.filename // D:/UserSpace/vite-electron-templ
 
 /** 当前是否处于开发环境 */
 export const isDevelopment = process.env.NODE_ENV === 'development'
+
+/** 应用默认标题 .env 处配置 */
+export const defaultTitle = import.meta.env.VITE_APP_TITLE || 'Electron Application Template'

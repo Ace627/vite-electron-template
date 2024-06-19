@@ -1,7 +1,7 @@
 import path from 'path'
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import { pathResolve } from '../build'
-import { dirname, filename, isDevelopment } from './utils/constants'
+import { isDevelopment, defaultTitle } from './config/constants'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控制台关于 webSecurity 的警告日志
 
@@ -9,6 +9,7 @@ let mainWindow: BrowserWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
+    title: defaultTitle,
     width: 1200, //  窗口的宽度 以像素为单位
     height: 800, // 窗口的高度 以像素为单位
     center: true, // 是否在屏幕中央显示窗口
@@ -39,7 +40,7 @@ app.whenReady().then(() => {
   createWindow()
   ipcMain.on('show-modal', () => {
     dialog.showMessageBoxSync(mainWindow, {
-      title: 'Vite Electron Template',
+      title: defaultTitle,
       type: 'info',
       message: '关于我们',
       detail: '提示内容文本提示内容文本提示内容\n文本提示内容文本提示内容文本\n文本提示内容文本提示内容文本\n文本提示内容文本提示内容文本\n文本提示内容文本提示内容文本',
