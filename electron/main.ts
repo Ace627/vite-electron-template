@@ -7,6 +7,10 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控
 
 // 演示用
 ipcMain.on(`setTitle`, (_, title: string) => mainWindow.setTitle(title))
+ipcMain.handle(`invokeMessage`, (_, data: string) => {
+  console.log('data: ', data)
+  return `来自主进程的消息`
+})
 
 let mainWindow: BrowserWindow
 
