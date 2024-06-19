@@ -95,7 +95,7 @@ importers:
         version: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.20.0)
       vite-plugin-electron:
         specifier: 0.28.7
-        version: 0.28.7
+        version: 0.28.7(vite-plugin-electron-renderer@0.14.5)
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.20.0))
@@ -4487,6 +4487,9 @@ packages:
   verror@1.10.1:
     resolution: {integrity: sha512-veufcmxri4e3XSrT0xwfUR7kguIkaxBeosDg00yDWhk49wdwkSUrvvsm7nc75e1PUyvIeZj6nS8VQRYz2/S4Xg==}
     engines: {node: '>=0.6.0'}
+
+  vite-plugin-electron-renderer@0.14.5:
+    resolution: {integrity: sha512-EQ7ORuPp8vFPCqfuGnVo7d36fXS0IFH4/RUlKb1drseix3TQEPcgwEuFADdXBxRgqMp70njz/1m0kdf5lEsm8w==}
 
   vite-plugin-electron@0.28.7:
     resolution: {integrity: sha512-wsiFUY9AN/HBwn6Jc+i7ehNQISAzUzy6p7NvgJJB1jKCNvZ7PyYlZloH0m3LWFkC+/dFDRGwW89kyAafRRPsLA==}
@@ -9655,7 +9658,12 @@ snapshots:
       extsprintf: 1.4.1
     optional: true
 
-  vite-plugin-electron@0.28.7: {}
+  vite-plugin-electron-renderer@0.14.5:
+    optional: true
+
+  vite-plugin-electron@0.28.7(vite-plugin-electron-renderer@0.14.5):
+    optionalDependencies:
+      vite-plugin-electron-renderer: 0.14.5
 
   vite-plugin-html@3.2.2(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.20.0)):
     dependencies:
