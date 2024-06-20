@@ -17,16 +17,17 @@ let mainWindow: BrowserWindow
 function createWindow() {
   mainWindow = new BrowserWindow({
     title: defaultTitle,
+    icon: 'src/assets/images/logo.png',
     width: 1200, //  窗口的宽度 以像素为单位
     height: 800, // 窗口的高度 以像素为单位
     center: true, // 是否在屏幕中央显示窗口
     show: false, // 创建时是否应显示窗口
     webPreferences: {
       webSecurity: false, // 是否启用同源策略
-      devTools: isDevelopment, // 是否启用 DevTools
+      // devTools: isDevelopment, // 是否启用 DevTools
       experimentalFeatures: true, // 是否启用 Chromium 的实验性功能
       nodeIntegration: false,
-      preload: path.join(pathResolve('dist-electron/preload.mjs')),
+      preload: pathResolve('dist-electron/preload.mjs'),
     },
   })
 
