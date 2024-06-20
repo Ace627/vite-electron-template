@@ -1,16 +1,9 @@
 import path from 'path'
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
-import { pathResolve } from '../build'
 import { isDevelopment, defaultTitle, dirname } from './config/constants'
+import './config/ipc-main-handler' // 统一处理 ipc 通信
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控制台关于 webSecurity 的警告日志
-
-// 演示用
-ipcMain.on(`setTitle`, (_, title: string) => mainWindow.setTitle(title))
-ipcMain.handle(`invokeMessage`, (_, data: string) => {
-  console.log('data: ', data)
-  return `来自主进程的消息`
-})
 
 let mainWindow: BrowserWindow
 
