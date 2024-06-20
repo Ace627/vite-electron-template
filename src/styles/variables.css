@@ -1,6 +1,9 @@
 /** 全局 CSS 变量，这种变量不仅可以在 CSS 和 SCSS 中使用，还可以导入到 JS 中使用 */
 
 :root {
+  --app-navbar-height: 30px;
+  --app-header-height: var(--app-navbar-height);
+
   /* 主题色 */
   --app-color-white: #ffffff;
   --app-color-black: #000000;

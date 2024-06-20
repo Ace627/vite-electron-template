@@ -1,6 +1,7 @@
 <template>
   <div class="app-content">
-    <h1 class="text-64px font-bold">Hello World!</h1>
+    <!-- <h1 class="text-64px font-bold" v-for="(item, index) in 99" :key="index">Hello World! {{ item }}</h1> -->
+    <h1 class="text-64px font-bold" v-for="(item, index) in 1" :key="index">Hello World! {{ item }}</h1>
 
     <button class="flex-center mt-16px btn" @click="toggleWindowStatus('close')">通知主进程关闭窗口</button>
     <button class="flex-center mt-16px btn" @click="toggleWindowStatus('maximize')">窗口最大化/复原</button>

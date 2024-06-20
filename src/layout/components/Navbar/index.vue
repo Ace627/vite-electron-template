@@ -1,13 +1,17 @@
 <template>
   <div class="navbar relative">
+    <div class="app-logo">
+      <img src="@/assets/images/logo.png" alt="logo" class="wh-20px mx-8px" />
+    </div>
+
     <div class="ml-auto flex-center action-panel">
-      <div class="action-icon" @click="toggleWindowStatus('minimize')">
+      <div class="flex-center action-icon" @click="toggleWindowStatus('minimize')">
         <SvgIcon name="Minus" />
       </div>
-      <div class="action-icon" @click="toggleWindowStatus('maximize')">
+      <div class="flex-center action-icon" @click="toggleWindowStatus('maximize')">
         <SvgIcon name="FullScreen" />
       </div>
-      <div class="action-icon close" @click="toggleWindowStatus('close')">
+      <div class="flex-center action-icon close" @click="toggleWindowStatus('close')">
         <SvgIcon name="Close" />
       </div>
     </div>
@@ -27,9 +31,11 @@ function toggleWindowStatus(status: WindowStatus) {
 .navbar {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: var(--app-navbar-height);
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  background-color: #fff;
+  // background-color: #fff;
+  background-color: #262935;
+
   font-size: 16px;
   -webkit-app-region: drag;
 }
@@ -38,17 +44,14 @@ function toggleWindowStatus(status: WindowStatus) {
   cursor: pointer;
   height: 100%;
   .action-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100%;
-    padding: 0 12px;
-    font-size: 20px;
+    padding: 0 10px;
     transition: all 0.28s;
+    color: #fff;
     -webkit-app-region: none;
     &:hover {
-      color: #fff;
-      background-color: rgba(0, 21, 41, 0.08);
+      // background-color: rgba(0, 21, 41, 0.65);
+      background-color: #3d3d3d;
       &.close {
         background-color: red;
       }
