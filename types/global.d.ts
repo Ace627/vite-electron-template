@@ -12,7 +12,3 @@ type ActionType = 'create' | 'delete' | 'update' | 'copy' | 'upload' | 'export'
 
 /** 常用变量类型 */
 type VariableType = 'string' | 'number' | 'boolean' | 'null' | 'undefined' | 'object' | 'array' | 'function' | 'date' | 'regexp' | 'symbol' | 'bigint' | 'promise'
-
-interface Window {
-  electron: WindowElectron
-}

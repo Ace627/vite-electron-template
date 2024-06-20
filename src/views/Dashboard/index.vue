@@ -16,10 +16,11 @@ function showModal() {
 }
 
 function setTitle() {
-  window.electron.send(`setTitle`, `通知主进程把窗口标题改为渲染进程传递过去的数据`)
+  console.log('window.ipcRenderer: ', window.ipcRenderer)
+  window.ipcRenderer.send(`setTitle`, `通知主进程把窗口标题改为渲染进程传递过去的数据`)
 }
 async function invokeMessage() {
-  const data = await window.electron.invoke<string>(`invokeMessage`, `来自渲染进程的消息`)
+  const data = await window.ipcRenderer.invoke<string>(`invokeMessage`, `来自渲染进程的消息`)
   console.log('来自主进程的消息: ', data)
 }
 </script>
