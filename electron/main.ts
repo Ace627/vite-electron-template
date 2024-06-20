@@ -1,7 +1,7 @@
 import path from 'path'
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import { pathResolve } from '../build'
-import { isDevelopment, defaultTitle } from './config/constants'
+import { isDevelopment, defaultTitle, dirname } from './config/constants'
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控制台关于 webSecurity 的警告日志
 
@@ -24,16 +24,15 @@ function createWindow() {
     show: false, // 创建时是否应显示窗口
     webPreferences: {
       webSecurity: false, // 是否启用同源策略
-      // devTools: isDevelopment, // 是否启用 DevTools
+      devTools: isDevelopment, // 是否启用 DevTools
       experimentalFeatures: true, // 是否启用 Chromium 的实验性功能
       nodeIntegration: false,
-      preload: pathResolve('dist-electron/preload.mjs'),
+      preload: path.join(dirname, 'preload.mjs'),
     },
   })
 
   if (process.env.VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL)
-    mainWindow.webContents.openDevTools()
   } else {
     mainWindow.loadFile('./dist/index.html') // 打包后使用文件路径访问应用
   }
