@@ -15,6 +15,7 @@ function createWindow() {
     height: 800, // 窗口的高度 以像素为单位
     center: true, // 是否在屏幕中央显示窗口
     show: false, // 创建时是否应显示窗口
+    // frame: false,
     webPreferences: {
       webSecurity: false, // 是否启用同源策略
       devTools: isDevelopment, // 是否启用 DevTools

@@ -2,26 +2,18 @@
   <div class="app-content">
     <h1 class="text-64px font-bold">Hello World!</h1>
 
-    <button class="flex-center mt-16px btn" @click="setTitle">通知主进程把窗口标题改为渲染进程传递过去的数据</button>
-    <button class="flex-center mt-16px btn" @click="invokeMessage">主进程渲染进程互换消息</button>
+    <button class="flex-center mt-16px btn" @click="toggleWindowStatus('close')">通知主进程关闭窗口</button>
+    <button class="flex-center mt-16px btn" @click="toggleWindowStatus('maximize')">窗口最大化/复原</button>
+    <button class="flex-center mt-16px btn" @click="toggleWindowStatus('minimize')">窗口最小化</button>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: 'Dashboard' })
 
-function showModal() {
-  // window.electron.sendChannel(`show-modal`)
-  // window.electron.fullScreen()
-}
-
-function setTitle() {
-  console.log('window.ipcRenderer: ', window.ipcRenderer)
-  window.ipcRenderer.send(`setTitle`, `通知主进程把窗口标题改为渲染进程传递过去的数据`)
-}
-async function invokeMessage() {
-  const data = await window.ipcRenderer.invoke<string>(`invokeMessage`, `来自渲染进程的消息`)
-  console.log('来自主进程的消息: ', data)
+/** 通知主进程改变窗口状态 */
+function toggleWindowStatus(status: WindowStatus) {
+  window.ipcRenderer.send('window:status', status)
 }
 </script>
 
