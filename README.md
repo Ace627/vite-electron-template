@@ -16,6 +16,10 @@ pnpm install
 pnpm dev
 ```
 
+## 技术选型
+
+- Vite、Vue3、VueRouter、TypeScript、Electron、ElementPlus、UnoCSS
+
 ## 使用须知
 
 - 内嵌 Vue 项目模板请 [点此查看](https://github.com/Ace627/vite-vue3-template)
