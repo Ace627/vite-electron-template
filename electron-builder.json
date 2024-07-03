@@ -2,11 +2,16 @@
   "productName": "当时只道是寻常",
   "appId": "electron.vite.vue.element",
   "files": ["dist/**/*", "dist-electron/**/*"],
-
+  "asar": true,
+  "win": {
+    "icon": "src/assets/images/logo.png"
+  },
   "nsis": {
     "oneClick": false,
     "language": "2052",
     "deleteAppDataOnUninstall": true,
-    "allowToChangeInstallationDirectory": true
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true
   }
 }
