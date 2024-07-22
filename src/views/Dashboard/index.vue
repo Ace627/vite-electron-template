@@ -1,34 +1,34 @@
 <template>
   <div class="app-content">
-    <!-- <h1 class="text-64px font-bold" v-for="(item, index) in 99" :key="index">Hello World! {{ item }}</h1> -->
-    <h1 class="text-64px font-bold" v-for="(item, index) in 1" :key="index">Hello World! {{ item }}</h1>
-
-    <button class="flex-center mt-16px btn" @click="toggleWindowStatus('close')">通知主进程关闭窗口</button>
-    <button class="flex-center mt-16px btn" @click="toggleWindowStatus('maximize')">窗口最大化/复原</button>
-    <button class="flex-center mt-16px btn" @click="toggleWindowStatus('minimize')">窗口最小化</button>
+    <el-button>默认按钮</el-button>
+    <el-button type="primary">主要按钮</el-button>
+    <el-button type="success" @click="msgSuccess">成功按钮</el-button>
+    <el-button type="info" @click="msg">信息按钮</el-button>
+    <el-button type="warning" @click="msgWarning">警告按钮</el-button>
+    <el-button type="danger" @click="msgError">危险按钮</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: 'Dashboard' })
 
-/** 通知主进程改变窗口状态 */
-function toggleWindowStatus(status: WindowStatus) {
-  window.ipcRenderer.send('window:status', status)
+function msg() {
+  useModal().msg('信息按钮', { duration: 0 })
+}
+function msgSuccess() {
+  useModal().msgSuccess('成功按钮 ', { duration: 0 })
+}
+function msgWarning() {
+  useModal().msgWarning('警告按钮 ', { duration: 0 })
+}
+function msgError() {
+  useModal().msgError('危险按钮 ', { duration: 0 })
 }
 </script>
 
 <style lang="scss" scoped>
-.btn {
-  cursor: pointer;
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 10px;
-  color: #fff;
-  background: linear-gradient(220.55deg, #867ee6 15.27%, #4a86ff 49.16%);
-  transition: all 0.28s;
-  &:hover {
-    opacity: 0.65;
-  }
-}
+// .app-content {
+//   height: 100%;
+//   background-color: #262935;
+// }
 </style>
