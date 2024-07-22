@@ -24,22 +24,26 @@ function createWindow() {
     },
   })
 
-  if (process.env.VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL)
-  } else {
-    mainWindow.loadFile('./dist/index.html') // 打包后使用文件路径访问应用
-  }
+  const loadURL = app.isPackaged ? `file://${import.meta.dirname}/../dist/index.html` : process.env.VITE_DEV_SERVER_URL
+  mainWindow.loadURL(loadURL)
 
   // 加载页面时，如果窗口尚未显示，渲染器进程第一次渲染页面时将发出 ready-to-show 事件。在此事件之后显示窗口将不会出现视觉闪烁：
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
     mainWindow.webContents.openDevTools()
   })
+
+  // 当窗口关闭时清空引用
+  mainWindow.on('close', () => {
+    mainWindow = null
+  })
 }
 
+/** 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法 */
 app.whenReady().then(() => {
   createWindow()
 
+  // 在应用激活时重新创建窗口（适用于 macOS）
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow()
@@ -47,9 +51,9 @@ app.whenReady().then(() => {
   })
 })
 
+// 当所有窗口关闭时退出应用（除非是在 macOS 上）
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
-    mainWindow = null
   }
 })

@@ -1,34 +1,30 @@
 <template>
-  <div class="app-content">
-    <el-button>默认按钮</el-button>
-    <el-button type="primary">主要按钮</el-button>
-    <el-button type="success" @click="msgSuccess">成功按钮</el-button>
-    <el-button type="info" @click="msg">信息按钮</el-button>
-    <el-button type="warning" @click="msgWarning">警告按钮</el-button>
-    <el-button type="danger" @click="msgError">危险按钮</el-button>
+  <div class="app-content h-full flex-col flex-center">
+    <div class="sport-person"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: 'Dashboard' })
-
-function msg() {
-  useModal().msg('信息按钮', { duration: 0 })
-}
-function msgSuccess() {
-  useModal().msgSuccess('成功按钮 ', { duration: 0 })
-}
-function msgWarning() {
-  useModal().msgWarning('警告按钮 ', { duration: 0 })
-}
-function msgError() {
-  useModal().msgError('危险按钮 ', { duration: 0 })
-}
 </script>
 
 <style lang="scss" scoped>
-// .app-content {
-//   height: 100%;
-//   background-color: #262935;
-// }
+$image-width: 1536px;
+
+.sport-person {
+  width: calc($image-width / 6);
+  height: calc($image-width / 6);
+  background-image: url('../../assets/images/sport-person.png');
+  animation: sport 0.32s steps(6) infinite;
+}
+
+/* 创建奔跑动画的关键帧 */
+@keyframes sport {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -$image-width;
+  }
+}
 </style>
