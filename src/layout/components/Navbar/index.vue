@@ -1,17 +1,19 @@
 <template>
   <div class="navbar relative">
-    <div class="app-logo">
+    <div class="app-logo flex-center">
       <img src="@/assets/images/logo.png" alt="logo" class="wh-20px mx-8px" />
+      <span class="c-#fff text-14px">{{ VITE_APP_TITLE }}</span>
     </div>
 
     <div class="ml-auto flex-center action-panel">
-      <div class="flex-center action-icon" @click="toggleWindowStatus('minimize')">
+      <div class="flex-center action-icon" @click="handleWindowMinimize">
         <SvgIcon name="Minus" />
       </div>
-      <div class="flex-center action-icon" @click="toggleWindowStatus('maximize')">
-        <SvgIcon name="FullScreen" />
+      <div class="flex-center action-icon" @click="handleWindowMaximize">
+        <SvgIcon name="ExitFullScreen" v-if="isMaximized" />
+        <SvgIcon name="FullScreen" v-else />
       </div>
-      <div class="flex-center action-icon close" @click="toggleWindowStatus('close')">
+      <div class="flex-center action-icon close" @click="handleWindowClose">
         <SvgIcon name="Close" />
       </div>
     </div>
@@ -21,10 +23,36 @@
 <script setup lang="ts">
 defineOptions({ name: 'Navbar' })
 
-/** 通知主进程改变窗口状态 */
-function toggleWindowStatus(status: WindowStatus) {
-  window.ipcRenderer.send('window:status', status)
+const { VITE_APP_TITLE } = useEnv()
+
+/** 当前窗口是否处于最大化的标识 */
+const isMaximized = ref(false)
+
+/** 处理窗口最小化的操作 */
+function handleWindowMinimize() {
+  window.ipcRenderer.send('window:minimize')
 }
+
+/** 处理窗口关闭的操作 */
+function handleWindowClose() {
+  window.ipcRenderer.send('window:close')
+}
+
+/** 处理窗口最大化的操作 */
+function handleWindowMaximize() {
+  window.ipcRenderer.send('window:maximize')
+}
+
+/** 获取当前窗口的最大化状态 */
+async function getWindowMaximizeStatus() {
+  isMaximized.value = await window.ipcRenderer.invoke('window:isMaximized')
+}
+
+async function init() {
+  getWindowMaximizeStatus()
+}
+
+init()
 </script>
 
 <style lang="scss" scoped>

@@ -1,3 +1,1 @@
-type IpcChannelKey = 'window:status'
-
-type WindowStatus = 'maximize' | 'minimize' | 'close'
+type IpcChannelKey = 'window:minimize' | 'window:maximize' | 'window:close' | 'window:isMaximized'
