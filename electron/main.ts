@@ -1,7 +1,7 @@
 import path from 'path'
 import { app, BrowserWindow, ipcMain } from 'electron'
 import './config/ipc-main-handler' // 统一处理 ipc 通信
-import { defaultTitle, loadURL, __dirname } from './config/constants'
+import { defaultTitle, loadURL, __dirname, mainWindowMinW, mainWindowMinH } from './config/constants'
 
 // 不显示窗口控制台关于 webSecurity 的警告日志
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
@@ -23,8 +23,10 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     title: defaultTitle,
     icon: 'src/assets/images/logo.png',
-    width: 1200, //  窗口的宽度 以像素为单位
-    height: 800, // 窗口的高度 以像素为单位
+    width: mainWindowMinW, //  窗口的宽度 以像素为单位
+    height: mainWindowMinH, // 窗口的高度 以像素为单位
+    minWidth: mainWindowMinW,
+    minHeight: mainWindowMinH,
     center: true, // 是否在屏幕中央显示窗口
     show: false, // 创建时是否应显示窗口
     // frame: false,

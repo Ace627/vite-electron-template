@@ -20,6 +20,9 @@ importers:
       '@wangeditor/editor-for-vue':
         specifier: 5.1.12
         version: 5.1.12(@wangeditor/editor@5.1.23)(vue@3.4.33(typescript@5.5.3))
+      autofit.js:
+        specifier: 3.1.1
+        version: 3.1.1
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -1542,6 +1545,9 @@ packages:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
     engines: {node: '>= 4.5.0'}
     hasBin: true
+
+  autofit.js@3.1.1:
+    resolution: {integrity: sha512-ECW7wNUW1e6F+c0lRc9X+xyCrbqY3FsSnCObNDhQAo77E4/45tWx0YeLuiqA7qxrnxl2Plh3lF/pC+vzXC+8ZA==}
 
   autoprefixer@10.4.19:
     resolution: {integrity: sha512-BaENR2+zBZ8xXhM4pUaKUxlVdxZ0EZhjvbopwnXmxRUfqDmwSpC2lAi/QXvx7NRdPCo1WKEcEF6mV64si1z4Ew==}
@@ -6471,6 +6477,8 @@ snapshots:
   at-least-node@1.0.0: {}
 
   atob@2.1.2: {}
+
+  autofit.js@3.1.1: {}
 
   autoprefixer@10.4.19(postcss@5.2.18):
     dependencies:

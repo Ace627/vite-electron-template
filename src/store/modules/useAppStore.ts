@@ -27,10 +27,5 @@ export default defineStore('app', () => {
     sidebar.withoutAnimation = withoutAnimation
   }
 
-  /** 设备类型 */
-  const device = ref<DeviceType>('desktop')
-  const isMobile: globalThis.ComputedRef<boolean> = computed(() => device.value === 'mobile')
-  const isDesktop: globalThis.ComputedRef<boolean> = computed(() => device.value === 'desktop')
-
-  return { sidebar, device, isMobile, isDesktop, toggleSidebar, closeSidebar }
+  return { sidebar, toggleSidebar, closeSidebar }
 })

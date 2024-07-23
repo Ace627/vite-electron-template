@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" class="exception-container clearFix">
+  <div class="exception-container clearFix">
     <div class="exception-content flex-center w-full h-70% mt-10vh overflow-hidden">
       <div class="img-container">
         <img src="https://gw.alipayobjects.com/zos/rmsportal/KpnpchXsobRgLElEozzI.svg" draggable="false" />
@@ -16,12 +16,6 @@
 
 <script setup lang="ts">
 defineOptions({ name: 'NotFound' })
-
-/** Layout 布局响应式 */
-useResize()
-/** 读取 Pinia 仓库 */
-const appStore = useAppStore()
-const classes = computed(() => [appStore.device])
 </script>
 
 <style lang="scss" scoped>
@@ -44,26 +38,6 @@ const classes = computed(() => [appStore.device])
       color: rgba(0, 0, 0, 0.45);
       font-size: 20px;
     }
-  }
-}
-
-.mobile .exception-content {
-  flex-direction: column;
-  margin-top: 6vh;
-
-  .img-container {
-    padding-right: 0;
-
-    img {
-      width: 60%;
-      height: 20%;
-      margin: 0 auto;
-    }
-  }
-
-  .content {
-    margin-top: 16px;
-    text-align: center;
   }
 }
 </style>
