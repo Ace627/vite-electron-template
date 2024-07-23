@@ -1,11 +1,16 @@
 <template>
   <div class="app-content h-full flex-col flex-center">
+    <el-button @click="createWindow" type="primary">测试打开新窗口</el-button>
     <div class="sport-person"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: 'Dashboard' })
+
+function createWindow() {
+  window.ipcRenderer.send('window:create')
+}
 </script>
 
 <style lang="scss" scoped>

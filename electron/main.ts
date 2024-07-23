@@ -1,31 +1,43 @@
 import path from 'path'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import './config/ipc-main-handler' // 统一处理 ipc 通信
+import { defaultTitle, loadURL, __dirname } from './config/constants'
 
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true' // 不显示窗口控制台关于 webSecurity 的警告日志
+// 不显示窗口控制台关于 webSecurity 的警告日志
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let mainWindow: BrowserWindow
 
+ipcMain.on('window:create', () => {
+  generateWindow()
+})
+
+function generateWindow() {
+  let win = new BrowserWindow()
+  win.loadURL('https://www.baidu.com')
+  // 当窗口关闭时清空引用
+  mainWindow.on('close', () => (win = null))
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
-    title: import.meta.env.VITE_APP_TITLE,
+    title: defaultTitle,
     icon: 'src/assets/images/logo.png',
     width: 1200, //  窗口的宽度 以像素为单位
     height: 800, // 窗口的高度 以像素为单位
     center: true, // 是否在屏幕中央显示窗口
     show: false, // 创建时是否应显示窗口
-    frame: false,
+    // frame: false,
     webPreferences: {
       webSecurity: false, // 是否启用同源策略
       devTools: !app.isPackaged, // 是否启用 DevTools
       experimentalFeatures: true, // 是否启用 Chromium 的实验性功能
       nodeIntegration: false,
-      preload: path.join(import.meta.dirname, 'preload.mjs'),
+      preload: path.join(__dirname, 'preload.mjs'),
     },
   })
 
-  const loadURL = app.isPackaged ? `file://${import.meta.dirname}/../dist/index.html` : process.env.VITE_DEV_SERVER_URL
-  mainWindow.loadURL(loadURL)
+  mainWindow.loadURL(`${loadURL}`)
 
   // 加载页面时，如果窗口尚未显示，渲染器进程第一次渲染页面时将发出 ready-to-show 事件。在此事件之后显示窗口将不会出现视觉闪烁：
   mainWindow.once('ready-to-show', () => {
@@ -34,9 +46,7 @@ function createWindow() {
   })
 
   // 当窗口关闭时清空引用
-  mainWindow.on('close', () => {
-    mainWindow = null
-  })
+  mainWindow.on('close', () => (mainWindow = null))
 }
 
 /** 当 Electron 完成初始化并准备创建浏览器窗口时调用此方法 */
