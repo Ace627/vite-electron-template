@@ -47,6 +47,11 @@ export default defineConfig(({ command, mode }) => {
     css: {
       /** 通过多线程运行 CSS 预处理器，从而极大提高其处理速度 */
       preprocessorMaxWorkers: true,
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/styles/element-plus/theme-var.scss" as *;`,
+        },
+      },
     },
 
     build: {

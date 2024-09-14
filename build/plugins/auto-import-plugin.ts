@@ -16,8 +16,8 @@ export const registerAutoImport = (): PluginOption => {
 /** 组件及其类型的自动化导入 */
 export const registerAutoComponents = (): PluginOption => {
   return AutoComponents({
-    resolvers: [ElementPlusResolver()],
+    resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
     dts: 'types/auto-generate/auto-components.d.ts',
-    dirs: ['src/components'], // 配置其它需要导入的文件目录
+    dirs: [], // 配置其它需要导入的文件目录 'src/components'
   })
 }

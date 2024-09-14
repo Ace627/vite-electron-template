@@ -1,20 +1,5 @@
 /** 全局 CSS 变量，这种变量不仅可以在 CSS 和 SCSS 中使用，还可以导入到 JS 中使用 */
-
 :root {
-  --app-navbar-height: 30px;
-  --app-header-height: var(--app-navbar-height);
-
-  /* 主题色 */
-  --app-color-white: #ffffff;
-  --app-color-black: #000000;
-  --app-color-primary: #409eff;
-  --app-color-success: #67c23a;
-  --app-color-warning: #e6a23c;
-  --app-color-danger: #f56c6c;
-  --app-color-info: #909399;
-
-  /* Body */
-  --app-body-text-color: #303133;
-  --app-body-bg-color: #f2f3f5;
-  --app-font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+  --ap-navbar-height: 30px;
+  --ap-header-height: var(--app-navbar-height);
 }

@@ -1,10 +1,19 @@
 {
   "productName": "当时只道是寻常",
   "appId": "electron.vite.vue.element",
-  "files": ["dist/**/*", "dist-electron/**/*"],
+  "files": ["dist-electron/**/*", "!node_modules/.bin", "!**/*.map"],
   "asar": true,
+  "directories": {
+    "output": "dist-electron"
+  },
   "win": {
-    "icon": "src/assets/images/logo.png"
+    "icon": "src/assets/images/logo.png",
+    "target": ["nsis"],
+    "signingHashAlgorithms": ["sha256"],
+    "publisherName": "MyCompany"
+  },
+  "mac": {
+    "hardenedRuntime": true
   },
   "nsis": {
     "oneClick": false,

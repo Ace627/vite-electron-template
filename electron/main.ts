@@ -1,10 +1,8 @@
+import './config/init.config'
 import path from 'path'
 import { app, BrowserWindow, ipcMain } from 'electron'
 import './config/ipc-main-handler' // 统一处理 ipc 通信
 import { defaultTitle, loadURL, __dirname, mainWindowMinW, mainWindowMinH } from './config/constants'
-
-// 不显示窗口控制台关于 webSecurity 的警告日志
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let mainWindow: BrowserWindow
 

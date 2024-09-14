@@ -6,7 +6,6 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import { registerAutoImport, registerAutoComponents } from './auto-import-plugin'
 import { registerHtmlPlugin } from './compile.html'
 import { registerImageMini } from './image.mini'
-import { registerSvgIcons } from './register-svg-icons'
 import { registerElectronPlugin } from './register-electron'
 
 export function generateVitePlugins(viteEnv: ViteEnv, isBuild: boolean): PluginOption[] {
@@ -20,9 +19,6 @@ export function generateVitePlugins(viteEnv: ViteEnv, isBuild: boolean): PluginO
 
   /** 提供 Electron 的支持 */
   plugins.push(registerElectronPlugin())
-
-  /** 提供 Svg 图标功能的使用支持 */
-  plugins.push(registerSvgIcons())
 
   /** 即时按需的原子化 CSS 引擎 UnoCSS */
   plugins.push(UnoCSS())
