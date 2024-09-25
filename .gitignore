@@ -15,7 +15,6 @@ dist-electron
 
 # 会自动生成的文件
 types/auto-generate/*
-src/components/SvgIcon/icons.ts
 vite.config.ts*.mjs
 
 # Editor directories and files
