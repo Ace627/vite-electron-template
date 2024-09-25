@@ -41,7 +41,7 @@
     "electron": "32.0.0",
     "electron-builder": "24.9.1",
     "esno": "4.7.0",
-    "sass": "^1.79.3",
+    "sass": "^1.78.0",
     "typescript": "^5.6.2",
     "unocss": "0.62.4",
     "unplugin-auto-import": "^0.18.3",
