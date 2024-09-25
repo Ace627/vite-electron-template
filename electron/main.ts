@@ -1,8 +1,8 @@
-import './config/init.config'
+import './controller'
 import path from 'path'
 import { app, BrowserWindow, ipcMain } from 'electron'
 import './config/ipc-main-handler' // 统一处理 ipc 通信
-import { defaultTitle, loadURL, __dirname, mainWindowMinW, mainWindowMinH } from './config/constants'
+import { defaultTitle, loadURL, mainWindowMinW, mainWindowMinH } from './config/constants'
 
 let mainWindow: BrowserWindow
 
