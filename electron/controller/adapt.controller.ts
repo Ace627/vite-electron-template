@@ -2,5 +2,5 @@
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 // 兼容 CommonJS 的内置变量
-globalThis.__filename = import.meta.filename
 globalThis.__dirname = import.meta.dirname
+globalThis.__filename = import.meta.filename

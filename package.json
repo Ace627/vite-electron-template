@@ -13,6 +13,7 @@
     "preinstall": "npx only-allow pnpm",
     "dev": "vite",
     "dev:win": "chcp 65001 && vite",
+    "build": "vue-tsc && vite build",
     "build:win64": "vue-tsc && vite build && electron-builder --win --x64",
     "build:win32": "vue-tsc && vite build && electron-builder --win --ia32",
     "build:mac": "vue-tsc && vite build && electron-builder --mac"

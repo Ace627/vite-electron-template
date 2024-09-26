@@ -1,8 +1,7 @@
 import './controller'
-import path from 'path'
 import { app, BrowserWindow, ipcMain } from 'electron'
-import './config/ipc-main-handler' // 统一处理 ipc 通信
 import { defaultTitle, loadURL, mainWindowMinW, mainWindowMinH } from './config/constants'
+import { CommonWebPreferences } from './config'
 
 let mainWindow: BrowserWindow
 
@@ -28,13 +27,7 @@ function createWindow() {
     center: true, // 是否在屏幕中央显示窗口
     show: false, // 创建时是否应显示窗口
     // frame: false,
-    webPreferences: {
-      webSecurity: false, // 是否启用同源策略
-      devTools: !app.isPackaged, // 是否启用 DevTools
-      experimentalFeatures: true, // 是否启用 Chromium 的实验性功能
-      nodeIntegration: false,
-      preload: path.join(__dirname, 'preload.mjs'),
-    },
+    webPreferences: { ...CommonWebPreferences },
   })
 
   mainWindow.loadURL(`${loadURL}`)
