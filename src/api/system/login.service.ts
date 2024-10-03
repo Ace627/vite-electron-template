@@ -8,7 +8,7 @@ function _mockApiResult(result: unknown): ApiResponseData {
 export class LoginService {
   /** 登录 */
   static login(data: LoginEntity.LoginForm): ApiResult<string> {
-    return new Promise((resolve, _) => resolve(_mockApiResult(data.account + data.password)))
+    return new Promise((resolve, _) => resolve(_mockApiResult(data.username + data.password)))
   }
 
   /** 退出登录 */
