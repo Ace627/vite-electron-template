@@ -1,175 +1,134 @@
 <template>
-  <div class="login-container relative wh-screen overflow-hidden">
-    <div class="login-content fixed overflow-hidden flex">
-      <div class="left">
-        <img src="../../assets/images/223502-17123277028d9c.jpg" class="wh-full" alt="" />
-      </div>
-      <div class="right">
-        <h3>登录</h3>
-        <input type="text" v-model="loginForm.account" class="input-item" placeholder="请输入你的账号" />
-        <input type="password" v-model="loginForm.password" class="input-item" placeholder="请输入你的密码" />
-        <a href="#" class="forget-password">忘记密码？</a>
-        <button class="btn" @click="handleLogin">
-          <span v-if="loading">正在登录...</span>
-          <span v-else>提交</span>
-        </button>
-      </div>
-    </div>
+  <div class="login-container flex-center">
+    <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules">
+      <h3 class="title">{{ viteEnv.VITE_APP_TITLE }}</h3>
+      <el-form-item prop="username">
+        <el-input v-model="loginForm.username" placeholder="账号">
+          <template #prefix> <IconFont name="User" /> </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input type="password" v-model="loginForm.password" show-password placeholder="密码">
+          <template #prefix> <IconFont name="Lock" /> </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="captcha" v-if="captchaEnabled">
+        <div class="flex items-center w-full">
+          <el-input v-model="loginForm.captcha" placeholder="请输入验证码">
+            <template #prefix> <IconFont name="Guard" /> </template>
+          </el-input>
+          <img :src="captchaURL ?? defaultCaptcha" alt="captcha" class="cursor-pointer ml-10px" draggable="false" />
+        </div>
+      </el-form-item>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px">记住密码</el-checkbox>
+      <el-form-item>
+        <el-button :loading type="primary" class="w-full" size="large" @click.prevent="handleLogin">
+          <span>{{ loading ? `登录中...` : `登录` }}</span>
+        </el-button>
+      </el-form-item>
+    </el-form>
 
-    <footer class="login-footer-container">
-      <span>少时，春风得意马蹄疾，不信人间有别离。</span>
-    </footer>
+    <!--  底部  -->
+    <div class="login-footer text-center">
+      <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'Login' })
+defineOptions({ name: 'LoginTemplate01' })
+import type { FormInstance, FormRules } from 'element-plus'
+import Cookies from 'js-cookie'
+import defaultCaptcha from '@/assets/images/no-captcha.png'
 
-const route = useRoute()
-const router = useRouter()
 const userStore = useUserStore()
-
+const viteEnv = useEnv()
+/** 登录表单实例 */
+const loginFormRef = useTemplateRef<FormInstance>('loginFormRef')
 /** 登录按钮 Loading */
-const loading = ref(false)
+const loading = ref<boolean>(false)
+/** 验证码开关 */
+const captchaEnabled = ref<boolean>(true)
+/** 验证码图片地址 */
+const captchaURL = ref<string>()
 /** 登录表单数据 */
-const loginForm = ref<LoginEntity.LoginParams>({
-  account: 'admin',
-  password: '123456',
-})
-/** 计算需要跳转的路径 */
-const redirect = (route.query.redirect as string) || '/'
+const loginForm = ref<LoginEntity.LoginForm>({} as LoginEntity.LoginForm)
+/** 登录表单数据的校验规则 */
+const loginRules: FormRules = {
+  username: [{ required: true, trigger: 'blur', message: '请输入您的账号' }],
+  password: [{ required: true, trigger: 'blur', message: '请输入您的密码' }],
+  captcha: [{ required: true, trigger: 'blur', message: '请输入验证码' }],
+}
 
 /** 处理登录按钮的回调 */
 async function handleLogin() {
   try {
     loading.value = true
-    await userStore.login(loginForm.value)
+    await loginFormRef.value?.validate()
+    // await userStore.login(loginForm.value)
+    handleRememberMe()
     loading.value = false
-    console.log('redirect: ', redirect)
-    await router.replace({ path: redirect })
   } catch (error) {
-    console.log('error: ', error)
     loading.value = false
+    console.log('error: ', error)
   }
 }
+
+/** 处理记住登录数据的操作 */
+function handleRememberMe() {
+  if (loginForm.value.rememberMe) {
+    Cookies.set('username', loginForm.value.username)
+    Cookies.set('password', loginForm.value.password)
+    Cookies.set('rememberMe', loginForm.value.rememberMe ? '1' : '0')
+  } else {
+    Cookies.remove('username')
+    Cookies.remove('password')
+    Cookies.remove('rememberMe')
+  }
+}
+function getCookie() {
+  const username = Cookies.get('username')
+  const password = Cookies.get('password')
+  const rememberMe = Cookies.get('rememberMe') === '1' ? true : false
+  loginForm.value.username = username === undefined ? loginForm.value.username : username
+  loginForm.value.password = password === undefined ? loginForm.value.password : password
+  loginForm.value.rememberMe = rememberMe
+}
+
+getCookie()
 </script>
 
 <style lang="scss" scoped>
 .login-container {
-  background-image: linear-gradient(to right, #65cbf7, #b3a5fc);
-}
-
-.login-content {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-  height: 450px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-}
-.left {
-  width: 60%;
-  img {
-    display: block;
-    object-fit: cover;
-  }
-}
-.right {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  position: relative;
   height: 100%;
-  padding: 0 16px;
-  background-color: #fff;
-  h3 {
-    padding-top: 45px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 24px;
-    letter-spacing: 2px;
-  }
-  .input-item {
-    width: 100%;
-    height: 44px;
-    margin-top: 16px;
-    padding: 0;
-    padding-left: 5px;
-    border-bottom: 2px solid #b3a5fc;
-  }
-  .forget-password {
-    margin-top: 16px;
-    color: #9c3493;
-    text-align: right;
-    font-size: 14px;
-  }
-  .btn {
-    cursor: pointer;
-    width: 80%;
-    height: 42px;
-    margin: 0 auto;
-    margin-top: 16px;
-    color: #9c3493;
-    font-size: 18px;
-    border-radius: 16px;
-    background-image: linear-gradient(to left, #65cbf7, #b3a5fc);
-  }
-}
-
-.login-footer-container {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 40px;
-  color: #fff;
-  font-size: 12px;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-
-/** 适配 PC */
-@media screen and (min-width: 992px) {
-  .login-content {
-    max-width: 950px;
-    min-width: 750px;
-  }
-}
-/** 适配 Pad */
-@media screen and (max-width: 992px) {
-  .login-content {
-    display: block;
-    height: auto;
-  }
-  .left {
-    width: 100%;
-    height: 200px;
-    margin-top: 0;
-  }
-  .right {
-    width: 100%;
-    margin-top: 0;
-    padding: 2vw;
-    h3 {
-      padding-top: 0;
+  background-image: url('@/assets/images/bg-image-01.png');
+  background-size: cover;
+  .el-form {
+    width: 400px;
+    padding: 25px 25px 5px 25px;
+    border-radius: 6px;
+    background-color: #fff;
+    .title {
+      margin: 0px auto 30px auto;
+      text-align: center;
+      color: #707070;
+      font-size: 20px;
+      font-weight: 500;
     }
-    .input-item,
-    .forget-password,
-    .btn {
-      margin-top: 2vw;
+    .el-input {
+      --el-input-height: 38px;
     }
   }
-}
-/** 适配 Mobile */
-@media screen and (max-width: 750px) {
-  .login-content {
-    width: 85%;
-  }
-  .btn {
-    margin-bottom: 2vw !important;
+  .login-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: var(--el-color-white);
+    font-size: var(--el-font-size-extra-small);
+    letter-spacing: 1px;
   }
 }
 </style>
