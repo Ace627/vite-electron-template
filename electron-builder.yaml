@@ -1,0 +1,28 @@
+# 应用标识和名称
+appId: com.vite-electron-template.app # 应用标识，与 .env 中的 VITE_APP_ID 保持一致（小写下划线模式）
+productName: Vite Electron Template # 应用名称，与 .env 中的 VITE_APP_TITLE 保持一致
+
+# 打包产物输出目录
+directories:
+  output: dist-release
+
+# 需要打包进安装包的文件
+files:
+  - dist/**/* # Vue 前端构建产物
+  - dist-electron/**/* # Electron 主进程构建产物
+
+# 应用图标，安装后的 .exe 图标、桌面快捷方式图标、任务栏图标
+icon: public/img/logo.ico
+
+# Windows 安装包配置
+win:
+  target:
+    - nsis # 生成 NSIS 安装包
+
+nsis:
+  oneClick: false # 非一键安装，显示安装向导
+  allowToChangeInstallationDirectory: true # 允许用户更改安装目录
+  createDesktopShortcut: true # 创建桌面快捷方式
+  createStartMenuShortcut: true # 创建开始菜单快捷方式
+  installerIcon: public/img/logo.ico # 安装包图标
+  uninstallerIcon: public/img/logo.ico # 卸载程序图标
