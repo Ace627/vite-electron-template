@@ -66,10 +66,10 @@ const arch = computed(() => window.app?.arch ?? '')
 const open = () => (visible.value = true)
 defineExpose({ open })
 
-const copyInfo = async () => {
+async function copyInfo() {
   const text = [
     appStore.title,
-    '版本 0.0.0',
+    `版本 ${pkg.version}`,
     '',
     `Electron: ${versions.value.electron ?? '-'}`,
     `Node.js: ${versions.value.node ?? '-'}`,
@@ -79,7 +79,7 @@ const copyInfo = async () => {
   ].join('\n')
 
   try {
-    await navigator.clipboard.writeText(text)
+    await window.clipboard.writeText(text)
     TipModal.msgSuccess('复制成功')
   } catch {
     TipModal.msgError('复制失败')

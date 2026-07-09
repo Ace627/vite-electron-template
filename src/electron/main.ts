@@ -1,5 +1,5 @@
 import { join } from 'node:path'
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, clipboard, ipcMain } from 'electron'
 import { ensureDataDir, loadSettings, saveSettings } from './setting'
 
 let mainWindow: BrowserWindow | null = null
@@ -62,6 +62,16 @@ async function bootstrap() {
   // 设置 IPC
   ipcMain.handle('settings:load', () => loadSettings())
   ipcMain.handle('settings:save', (_event, patch) => saveSettings(patch))
+
+  // 剪贴板 IPC
+  ipcMain.handle('clipboard:read-text', () => {
+    const text = clipboard.readText()
+    return text || null
+  })
+  ipcMain.handle('clipboard:write-text', (_event, text) => {
+    if (!text) throw new Error('写入剪贴板的文本不能为空')
+    clipboard.writeText(text)
+  })
 
   // 窗口关闭后释放引用
   mainWindow.on('closed', () => (mainWindow = null))
