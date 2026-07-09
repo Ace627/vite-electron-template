@@ -1,9 +1,9 @@
-/** 主题模式 */
-export type ThemeMode = 'light' | 'dark'
-
 /** 应用设置 */
 export interface Settings {
-  theme: ThemeMode
+  /** 主题模式 */
+  theme: 'light' | 'dark'
+  /** 组件大小 */
+  size: 'default' | 'small' | 'large'
 }
 
 /** 渲染进程调用 settings 的 API */

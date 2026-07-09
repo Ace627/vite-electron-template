@@ -2,9 +2,7 @@ import { app } from 'electron'
 import type { Settings } from '@/types'
 import { join, dirname } from 'node:path'
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
-
-/** 默认设置 */
-const DEFAULT_SETTINGS: Settings = { theme: 'light' }
+import { defaultSettings } from '@/common'
 
 /** 数据目录：exe 同级 data/ */
 function dataDir(): string {
@@ -23,16 +21,16 @@ export function loadSettings(): Settings {
 
   if (!existsSync(path)) {
     // 首次启动，生成默认配置文件
-    writeFileSync(path, JSON.stringify(DEFAULT_SETTINGS, null, 2), 'utf-8')
-    return { ...DEFAULT_SETTINGS }
+    writeFileSync(path, JSON.stringify(defaultSettings, null, 2), 'utf-8')
+    return { ...defaultSettings }
   }
 
   try {
-    return { ...DEFAULT_SETTINGS, ...JSON.parse(readFileSync(path, 'utf-8')) }
+    return { ...defaultSettings, ...JSON.parse(readFileSync(path, 'utf-8')) }
   } catch {
     // 文件损坏，重置为默认
-    writeFileSync(path, JSON.stringify(DEFAULT_SETTINGS, null, 2), 'utf-8')
-    return { ...DEFAULT_SETTINGS }
+    writeFileSync(path, JSON.stringify(defaultSettings, null, 2), 'utf-8')
+    return { ...defaultSettings }
   }
 }
 

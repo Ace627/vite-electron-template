@@ -2,7 +2,6 @@
   <aside class="sidebar-container">
     <nav class="sidebar-nav">
       <button class="sidebar-btn" :class="{ active: route.path === '/dashboard' }" @click="goHome">首页</button>
-      <!-- <button class="sidebar-btn" :class="{ active: route.path === '/settings' }" @click="goSettings">设置</button> -->
     </nav>
   </aside>
 </template>
@@ -14,7 +13,6 @@ const route = useRoute()
 const router = useRouter()
 
 const goHome = () => router.push('/dashboard')
-// const goSettings = () => router.push('/settings')
 </script>
 
 <style lang="scss" scoped>

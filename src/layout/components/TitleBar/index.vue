@@ -3,54 +3,23 @@
     <!-- 左侧：拖拽区 + 应用标识 + 菜单栏 -->
     <div class="title-bar__drag">
       <img src="/img/logo.ico" class="title-bar__icon" />
-      <span class="title-bar__text">{{appStore.title}}</span>
+      <span class="title-bar__text">{{ appStore.title }}</span>
 
-      <!-- 文件菜单 -->
-      <el-dropdown trigger="click" class="title-bar__menu" placement="bottom-start">
-        <span class="menu-trigger">文件</span>
+      <el-dropdown trigger="click" class="title-bar__menu" placement="bottom-start" v-for="(menu, index) in menus" :key="index">
+        <span class="menu-trigger">{{ menu.trigger }}</span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="goSettings">设置</el-dropdown-item>
-            <el-dropdown-item divided @click="quitApp">退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-
-      <!-- 帮助菜单 -->
-      <el-dropdown trigger="click" class="title-bar__menu" placement="bottom-start">
-        <span class="menu-trigger">帮助</span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item  @click="openDevTools">
-              <span class="menu-label">切换开发者工具</span>
-              <span class="menu-kbd">Ctrl+Shift+I</span>
-            </el-dropdown-item divided>
-            <el-dropdown-item @click="showAbout">关于</el-dropdown-item>
+            <el-dropdown-item v-for="(item, cIndex) in menu.items" :key="cIndex" :divided="item?.divided" @click="item.handler">
+              <span class="menu-label">{{ item.label }}</span>
+              <span class="menu-kbd" v-if="item.shortcut">{{ item.shortcut }}</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
 
     <!-- 右侧：窗口控制 -->
-    <div class="title-bar__controls">
-      <button class="title-bar__btn title-bar__btn--min" title="最小化" @click="minimize">
-        <svg viewBox="0 0 10 1" fill="currentColor"><rect width="10" height="1" /></svg>
-      </button>
-      <button class="title-bar__btn title-bar__btn--max" :title="isMaximized ? '向下还原' : '最大化'" @click="toggleMaximize">
-        <svg v-if="isMaximized" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="1" y="3" width="7" height="6" />
-          <path d="M3 1h5.5v5.5" />
-        </svg>
-        <svg v-else viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="0.5" y="0.5" width="9" height="9" />
-        </svg>
-      </button>
-      <button class="title-bar__btn title-bar__btn--close" title="关闭" @click="closeWindow">
-        <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1">
-          <path d="M1 1L9 9M9 1L1 9" />
-        </svg>
-      </button>
-    </div>
+    <WindowControlPanel />
   </div>
 
   <AboutDialog ref="aboutDialogRef" />
@@ -59,36 +28,42 @@
 <script setup lang="ts">
 defineOptions({ name: 'TitleBar' })
 import AboutDialog from './AboutDialog.vue'
+import WindowControlPanel from './WindowControlPanel.vue'
 
-const appStore = useAppStore()
 const router = useRouter()
+const appStore = useAppStore()
 
-const aboutDialogRef = ref<InstanceType<typeof AboutDialog>>()
+const aboutDialogRef = shallowRef<InstanceType<typeof AboutDialog>>()
 const showAbout = () => aboutDialogRef.value?.open()
 
-/** 跳转到首页 */
-// const goHome = () => router.push('/')
+interface MenuItem {
+  label: string
+  shortcut?: string
+  divided?: boolean
+  handler: () => void
+}
 
-/** 跳转到设置页 */
-const goSettings = () => router.push('/settings')
+interface MenuConfig {
+  trigger: string
+  items: MenuItem[]
+}
 
-/** 退出应用 */
-const quitApp = () => window.windowControls?.quitApp()
-
-/** 打开开发者工具 */
-const openDevTools = () => window.windowControls?.openDevTools()
-
-/** 窗口最大化状态 */
-const isMaximized = ref(false)
-
-/** 窗口控制按钮 */
-const minimize = () => window.windowControls?.minimize()
-const toggleMaximize = () => window.windowControls?.maximize()
-const closeWindow = () => window.windowControls?.close()
-
-// 查询初始最大化状态，并监听后续变化（双击标题栏、Win+↑↓等外部操作也能同步）
-window.windowControls?.isMaximized().then((val) => (isMaximized.value = val))
-window.windowControls?.onMaximizeChange((val) => (isMaximized.value = val))
+const menus: MenuConfig[] = [
+  {
+    trigger: '文件',
+    items: [
+      { label: '设置', handler: () => router.push('/settings') },
+      { label: '退出', divided: true, handler: () => window.control?.quitApp() },
+    ],
+  },
+  {
+    trigger: '帮助',
+    items: [
+      { label: '切换开发者工具', shortcut: 'Ctrl+Shift+I', handler: () => window.control?.openDevTools() },
+      { label: '关于', handler: () => showAbout() },
+    ],
+  },
+]
 </script>
 
 <style lang="scss" scoped>
@@ -127,44 +102,6 @@ window.windowControls?.onMaximizeChange((val) => (isMaximized.value = val))
   margin: 0 4px;
 }
 
-.title-bar__controls {
-  display: flex;
-  height: 100%;
-  -webkit-app-region: no-drag;
-}
-
-.title-bar__btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 100%;
-  border: none;
-  background: transparent;
-  color: var(--el-text-color-regular);
-  cursor: pointer;
-  transition: background-color 0.15s;
-
-  svg {
-    width: 10px;
-    height: 10px;
-  }
-
-  &:hover {
-    background: var(--el-fill-color-light);
-  }
-
-  &--close:hover {
-    background: var(--el-color-danger);
-    color: #fff;
-  }
-}
-
-/* 菜单按钮 - 在拖拽区域内，需要 no-drag 避免点击被拦截 */
-.title-bar__menu {
-  -webkit-app-region: no-drag;
-}
-
 .menu-trigger {
   font-size: 12px;
   color: var(--el-text-color-regular);
@@ -176,6 +113,10 @@ window.windowControls?.onMaximizeChange((val) => (isMaximized.value = val))
   &:hover {
     background: var(--el-fill-color-light);
   }
+}
+
+.title-bar__menu {
+  -webkit-app-region: no-drag;
 }
 
 :deep(.el-dropdown__list) {

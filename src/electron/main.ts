@@ -1,8 +1,27 @@
 import { join } from 'node:path'
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { ensureDataDir, loadSettings, saveSettings } from './settings'
+import { ensureDataDir, loadSettings, saveSettings } from './setting'
 
 let mainWindow: BrowserWindow | null = null
+
+// 从环境变量中获取是否启用单实例锁
+const ENABLE_SINGLE_INSTANCE = import.meta.env.VITE_SINGLE_INSTANCE_LOCK === 'true'
+// 从环境变量中获取主窗口最小宽度和高度
+const VITE_MAIN_WINDOW_MIN_WIDTH = Number(import.meta.env.VITE_MAIN_WINDOW_MIN_WIDTH) || 1200
+const VITE_MAIN_WINDOW_MIN_HEIGHT = Number(import.meta.env.VITE_MAIN_WINDOW_MIN_HEIGHT) || 800
+
+// 第二个实例，退出
+if (ENABLE_SINGLE_INSTANCE && !app.requestSingleInstanceLock()) app.quit()
+
+app.on('second-instance', () => {
+  // 已有实例收到第二个实例的启动信号，激活已有窗口
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore()
+    mainWindow.focus()
+  }
+})
+
+// ==========================================================================
 
 /** 启动 Electron 主进程窗口 */
 async function bootstrap() {
@@ -14,14 +33,17 @@ async function bootstrap() {
 
   mainWindow = new BrowserWindow({
     title: import.meta.env.VITE_APP_TITLE,
-    width: 1200,
-    height: 800,
+    width: VITE_MAIN_WINDOW_MIN_WIDTH,
+    height: VITE_MAIN_WINDOW_MIN_HEIGHT,
+    minWidth: VITE_MAIN_WINDOW_MIN_WIDTH,
+    minHeight: VITE_MAIN_WINDOW_MIN_HEIGHT,
     frame: false, // 无边框
     titleBarStyle: 'hidden', // 隐藏标题栏
-    icon: join(import.meta.dirname, '../public/img/logo.ico'), // 运行时的任务栏图标
+    icon: join(import.meta.dirname, app.isPackaged ? '../dist/img/logo.ico' : '../public/img/logo.ico'), // 运行时的任务栏图标
     show: false, // 先隐藏，避免白屏
     webPreferences: {
       preload: join(import.meta.dirname, 'preload.mjs'), // 预加载脚本，桥接主进程和渲染进程的通信
+      sandbox: true, // 启用沙箱模式，限制渲染进程的权限
       contextIsolation: true, // 启用上下文隔离，保证安全
       nodeIntegration: false, // 禁止渲染进程直接访问 Node
     },

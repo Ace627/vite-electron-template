@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
-  "main": "dist-electron/index.js",
+  "main": "dist-electron/main.js",
   "scripts": {
     "dev:web": "vite",
     "build:web": "vue-tsc -b && vite build",

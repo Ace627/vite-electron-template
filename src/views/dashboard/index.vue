@@ -49,9 +49,9 @@ import pkg from '../../../package.json'
 
 const appStore = useAppStore()
 
-const versions = computed(() => window.appInfo?.versions ?? {})
-const platform = computed(() => window.appInfo?.platform ?? '')
-const arch = computed(() => window.appInfo?.arch ?? '')
+const versions = computed(() => window.app?.versions ?? {})
+const platform = computed(() => window.app?.platform ?? '')
+const arch = computed(() => window.app?.arch ?? '')
 
 const overviewCards = [
   { icon: 'Cpu', label: '版本', value: pkg.version || '0.0.0' },

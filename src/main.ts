@@ -19,6 +19,9 @@ async function bootstrap() {
   // 配置 Router https://router.vuejs.org/zh
   await setupRouter(app)
 
+  // 在挂载前把持久化设置读好，避免首屏主题/尺寸闪烁
+  await (await import('./store/modules/setting')).useSettingStore().load()
+
   // 挂载应用
   app.mount('#app')
 

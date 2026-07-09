@@ -59,9 +59,9 @@ const appStore = useAppStore()
 
 const visible = ref(false)
 
-const versions = computed(() => window.appInfo?.versions ?? {})
-const platform = computed(() => window.appInfo?.platform ?? '')
-const arch = computed(() => window.appInfo?.arch ?? '')
+const versions = computed(() => window.app?.versions ?? {})
+const platform = computed(() => window.app?.platform ?? '')
+const arch = computed(() => window.app?.arch ?? '')
 
 const open = () => (visible.value = true)
 defineExpose({ open })
@@ -80,7 +80,7 @@ const copyInfo = async () => {
 
   try {
     await navigator.clipboard.writeText(text)
-    TipModal.msgSuccess('已复制到剪贴板')
+    TipModal.msgSuccess('复制成功')
   } catch {
     TipModal.msgError('复制失败')
   }

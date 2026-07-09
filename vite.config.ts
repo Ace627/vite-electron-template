@@ -49,8 +49,7 @@ export default defineConfig(({ command, mode }) => {
       preprocessorOptions: {
         scss: {
           additionalData: `
-            @use "@/styles/element-plus/el-theme-light.scss";
-            @use "@/styles/element-plus/el-theme-dark.scss";`,
+            @use "@/styles/element-plus/el-theme-light.scss";`,
         },
       },
     },
