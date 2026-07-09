@@ -1,1 +1,1 @@
-export type { ThemeMode, Settings, SettingsAPI } from './settings'
+export type { Settings, SettingsAPI } from './settings'

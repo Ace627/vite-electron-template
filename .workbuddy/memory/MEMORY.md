@@ -21,11 +21,18 @@
 - 对于 `el-button`、`el-menu-item`、`el-input` 等 Element Plus 组件的 `#icon` 或 `prefix-icon` / `suffix-icon` 插槽，**必须**通过插槽传入 `SvgIcon` 组件来渲染图标，禁止使用 Element Plus 自带的图标组件或其他图标方案。
 
 ### 函数声明规范
-- 优先使用 `function` 声明而非箭头函数（`=>`），包括函数定义、回调函数等所有场景。
+- **模块级 / 具名函数**优先用 `function` 声明（如 `initWindowIpc`、`bootstrap`）；**简短的内联回调**（如 `ipcMain.on/handle` 的回调）允许使用箭头函数，不要一刀切全部写成 `function`。
 - 能单行表达的代码必须写成单行，保持代码简洁。
 - 示例：
-  - ✅ `function add(a, b) { return a + b; }`
-  - ❌ `const add = (a, b) => a + b;`
+  - ✅ 具名函数：`function add(a, b) { return a + b; }`
+  - ✅ 简短内联回调：`ipcMain.on('x', () => { ... })`
+  - ❌ 把所有内联回调都硬写成 `function () { ... }`
 
 ### 命名规范
 - 变量/属性名使用**单数形式**，除非语义上必须是复数集合（如数组）。禁止无意义地加 `s` 后缀。例如：`control` ✅、`controls` ❌；`setting` ✅、`settings` ❌。`
+
+### Electron 主进程 IPC 约定
+- 主进程 IPC 监听按业务模块拆分到 `src/electron/ipc/`（`window.ts` / `settings.ts` / `clipboard.ts`），每个模块导出 `initXxxIpc()` 函数，由 `src/electron/main.ts` 在 `bootstrap()` 内统一装配调用；`main.ts` 本身不内联任何 `ipcMain.on/handle`。
+- 依赖窗口实例的监听，通过**惰性 getter** 注入：`initWindowIpc(() => mainWindow)`，禁止直接传 `mainWindow` 值快照（窗口是 `let`，macOS 重建或关闭后会变）。
+- 处理函数内用 `getWindow()?.method()` 可选链写法（如 `getWindow()?.minimize()`、`getWindow()?.isMaximized() ?? false`），不写 `if (!win) return` 守卫。
+- 需要连续判断的场景（如最大化切换），可先 `const win = getWindow()` 再用 `win?.` 链式判断。
