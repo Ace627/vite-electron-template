@@ -6,8 +6,7 @@ import { registerSvgIcons } from './svg-icons-plugin'
 import { registerElectronPlugin } from './electron-plugin'
 import { registerAutoImport, registerAutoComponents } from './auto-import-plugin'
 
-export function setupVitePlugins(env: Record<string, string>, isBuild: boolean) {
-  const isElectronMode = env.VITE_ELECTRON_MODE === 'true'
+export function setupVitePlugins(isBuild: boolean) {
   console.log('isBuild: ', isBuild)
 
   const plugins: PluginOption[] = []
@@ -30,8 +29,8 @@ export function setupVitePlugins(env: Record<string, string>, isBuild: boolean) 
   /** 提供 SvgIcon 的使用支持 */
   plugins.push(registerSvgIcons())
 
-  // 仅在 Electron 模式下挂载 Electron 插件
-  if (isElectronMode) plugins.push(registerElectronPlugin())
+  // 始终挂载 Electron 插件（纯 Electron 模式）
+  plugins.push(registerElectronPlugin())
 
   return plugins
 }

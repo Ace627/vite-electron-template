@@ -34,7 +34,7 @@
 - **IPC 通信** — main（`ipcMain`）↔ preload（`contextBridge`）↔ renderer（`window.*`）三层安全架构
 - **窗口生命周期** — 窗口关闭释放引用、macOS activate 兼容
 - **Element Plus 封装** — `TipModal` 工具类封装所有弹窗操作（`ElMessage`、`ElMessageBox`、`ElNotification`、`ElLoading`），统一调用入口
-- **双模式运行** — 通过 `VITE_ELECTRON_MODE` 环境变量在纯 Web 开发与 Electron 桌面模式间切换
+- **Electron 桌面应用** — 基于 `vite-plugin-electron`，开发即启动桌面窗口（带 Vite 热重载），一键打包 Windows 安装包
 
 ## 目录结构
 
@@ -83,7 +83,7 @@
 │   │
 │   ├── components/
 │   │   └── SvgIcon/
-│   │       └── index.vue           # SvgIcon 全局组件（name/color/size/customClass）
+│   │       └── index.vue           # SvgIcon 全局组件（name/color/size）
 │   │
 │   ├── electron/                   # Electron 主进程
 │   │   ├── main/
@@ -163,30 +163,25 @@ pnpm install
 # 3. 替换应用图标
 #    将源图片转为 ICO 格式，保存为 public/img/logo.ico（至少 256x256）
 
-# 4. 启动开发（Electron 桌面应用模式，带 Vite 热重载）
-pnpm dev:electron
+# 4. 启动开发（Electron 桌面应用，带 Vite 热重载）
+pnpm dev
 
 # 5. 打包为 Windows 安装包
-pnpm build:electron     # 输出到 dist-release/
+pnpm build     # 输出到 dist-release/
 ```
 
 ## 脚本说明
 
 | 命令 | 说明 |
 |---|---|
-| `pnpm dev:web` | 仅启动 Web 开发服务器（无 Electron） |
-| `pnpm dev:electron` | 开发模式 — 自动启动 Electron 窗口 + Vite 热重载 |
-| `pnpm build:web` | 构建 Web 版（TypeScript 类型检查 + Vite 构建） |
-| `pnpm build:electron` | 构建桌面安装包（清空 dist-release → 类型检查 → 构建 → 打包） |
-
-> 注：Electron 模式通过环境变量 `VITE_ELECTRON_MODE=true` 激活，这会启用 `vite-plugin-electron` 插件并注册 Electron 相关 IPC。
+| `pnpm dev` | 开发模式 — 自动启动 Electron 窗口 + Vite 热重载 |
+| `pnpm build` | 构建桌面安装包（清空 dist-release → 类型检查 → 构建 → 打包） |
 
 ## 环境变量
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
 | `VITE_APP_TITLE` | `Vite Electron Template` | 应用标题，同步到标题栏、关于对话框、Dashboard |
-| `VITE_ELECTRON_MODE` | — | `true` 时启用 Electron 模式（由 `dev:electron` / `build:electron` 脚本设定） |
 | `VITE_DROP_CONSOLE` | `true`（生产环境） | 构建时移除 `console.*` 调用 |
 | `VITE_DROP_DEBUGGER` | `true`（生产环境） | 构建时移除 `debugger` 语句 |
 | `MODE` | `production`（生产环境） | 当前运行模式（`.env.production` 中设定） |
@@ -205,7 +200,7 @@ pnpm build:electron     # 输出到 dist-release/
 | `unplugin-auto-import` | API 自动导入（Vue/Pinia/Router + 自定义 store/hooks） |
 | `unplugin-vue-components` | 组件自动按需导入（Element Plus 解析器，SASS 样式） |
 | `vite-plugin-svg-icons-ng` | SVG 雪碧图生成，图标目录 `src/assets/svg-icons/` |
-| `vite-plugin-electron` (条件) | Electron 主进程和 preload 构建（仅 `VITE_ELECTRON_MODE=true` 时启用） |
+| `vite-plugin-electron` | Electron 主进程和 preload 构建 |
 
 ### 应用插件（启动时注册）
 
@@ -289,7 +284,7 @@ pnpm build:electron     # 输出到 dist-release/
 
 | 模式 | 数据路径 |
 |---|---|
-| `pnpm dev:electron` | `node_modules/electron/dist/data/settings.json` |
+| `pnpm dev` | `node_modules/electron/dist/data/settings.json` |
 | 安装版 | `安装目录/data/settings.json` |
 
 首次启动自动创建目录和 `settings.json`，默认内容：

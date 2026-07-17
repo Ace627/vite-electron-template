@@ -1,1 +1,10 @@
+# 忽略以下目录及其所有子内容
+.git
+dist
+dist-electron
+dist-release
+node_modules
+
+# 忽略以下文件的格式化
 reset.*css
+pnpm-lock.yaml

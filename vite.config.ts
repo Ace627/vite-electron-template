@@ -18,7 +18,7 @@ export default defineConfig(({ command, mode }) => {
       },
     },
 
-    plugins: setupVitePlugins(runtimeConfig, isBuild),
+    plugins: setupVitePlugins(isBuild),
 
     build: {
       rolldownOptions: {
