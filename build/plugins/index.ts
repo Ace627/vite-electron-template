@@ -2,9 +2,9 @@ import type { PluginOption } from 'vite'
 import UnoCSS from 'unocss/vite'
 import vue from '@vitejs/plugin-vue'
 import ElementPlus from 'unplugin-element-plus/vite'
-import { registerSvgIcons } from './svg-icons-plugin'
-import { registerElectronPlugin } from './electron-plugin'
-import { registerAutoImport, registerAutoComponents } from './auto-import-plugin'
+import { registerSvgIcons } from './svg-icons-plugin.ts'
+import { registerElectronPlugin } from './electron-plugin.ts'
+import { registerAutoImport, registerAutoComponents } from './auto-import-plugin.ts'
 
 export function setupVitePlugins(isBuild: boolean) {
   console.log('isBuild: ', isBuild)

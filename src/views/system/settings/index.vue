@@ -4,7 +4,7 @@
       <el-row :gutter="16">
         <el-col :span="8">
           <el-form-item label="系统主题">
-            <el-select v-model="settingStore.theme">
+            <el-select :model-value="settingStore.theme" @click="captureOrigin" @change="onThemeChange">
               <el-option label="浅色" value="light"></el-option>
               <el-option label="深色" value="dark"></el-option>
             </el-select>
@@ -26,9 +26,22 @@
 </template>
 
 <script setup lang="ts">
+import { useTheme } from '@/hooks/useTheme'
+
 defineOptions({ name: 'Settings' })
 
 const settingStore = useSettingStore()
+const { apply } = useTheme()
+
+/** 记录点开下拉时的位置，作为圆形扩散的圆心 */
+let origin: MouseEvent | undefined
+function captureOrigin(event: Event) {
+  if (event instanceof MouseEvent) origin = event
+}
+
+function onThemeChange(theme: unknown) {
+  apply(theme as 'light' | 'dark', origin)
+}
 </script>
 
 <style lang="scss" scoped></style>

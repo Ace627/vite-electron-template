@@ -1,3 +1,7 @@
+# 打包时下载 Electron 二进制走国内镜像（项目级固化，不依赖 npm_config_* 注入）
+electronDownload:
+  mirror: https://registry.npmmirror.com/-/binary/electron/
+
 # 应用标识和名称
 appId: com.vite-electron-template.app # 应用标识，与 .env 中的 VITE_APP_ID 保持一致（小写下划线模式）
 productName: Vite Electron Template # 应用名称，与 .env 中的 VITE_APP_TITLE 保持一致

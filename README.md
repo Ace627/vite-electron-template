@@ -1,6 +1,6 @@
 # Vite Electron Template
 
-基于 **Vite 8 + Vue 3.5 + TypeScript 6 + Element Plus 2 + Electron 43** 的桌面应用模板。
+基于 **Vite 8 + Vue 3.5 + TypeScript 6 + Element Plus 2 + Electron 45** 的桌面应用模板。
 
 支持纯 Web 模式和 Electron 桌面模式双运行，开箱即用。
 
@@ -8,18 +8,18 @@
 
 | 层面 | 技术 | 版本 |
 |---|---|---|
-| 构建工具 | Vite (Rolldown 压缩) | ^8.1.1 |
-| 前端框架 | Vue | ^3.5.39 |
-| 类型系统 | TypeScript（严格模式） | ~6.0.2 |
-| UI 组件库 | Element Plus | 2.14.2 |
-| 原子化 CSS | UnoCSS（Wind3 预设） | 66.7.4 |
-| 状态管理 | Pinia | 3.0.4 |
-| 路由 | Vue Router（Hash 模式） | 5.1.0 |
-| 桌面框架 | Electron | 43.0.0 |
-| 打包 | electron-builder（NSIS 安装向导） | 26.15.3 |
-| CSS 预处理器 | Sass | 1.101.0 |
-| HTTP 库 | Axios | 1.18.1 |
-| 日期工具 | dayjs | 1.11.21 |
+| 构建工具 | Vite (Rolldown 压缩) | ^8.3.8 |
+| 前端框架 | Vue | ^3.5.45 |
+| 类型系统 | TypeScript（严格模式） | ~6.0.3 |
+| UI 组件库 | Element Plus | 2.14.8 |
+| 原子化 CSS | UnoCSS（Wind3 预设） | 66.13.0 |
+| 状态管理 | Pinia | 4.1.0 |
+| 路由 | Vue Router（Hash 模式） | 5.5.1 |
+| 桌面框架 | Electron | 45.3.2 |
+| 打包 | electron-builder（NSIS 安装向导） | 26.18.0 |
+| CSS 预处理器 | Sass | 1.108.2 |
+| HTTP 库 | Axios | 1.21.1 |
+| 日期工具 | dayjs | 1.11.23 |
 
 ## 功能特性
 
@@ -42,7 +42,6 @@
 .
 ├── .env                           # 开发环境变量（应用标题）
 ├── .env.production                # 生产环境变量（去除 console 和 debugger）
-├── .npmrc                         # npm/pnpm 配置（淘宝镜像、Electron 镜像）
 ├── .gitignore                     # Git 忽略规则
 ├── electron-builder.yaml          # electron-builder NSIS 打包配置
 ├── index.html                     # 入口 HTML（Vite 标题占位符 %VITE_APP_TITLE%）
@@ -92,6 +91,9 @@
 │   │   │   └── settings.ts         # settings.json 文件读写（exe 同级 data/）
 │   │   └── preload.ts              # contextBridge 桥接（暴露三个安全 API）
 │   │
+│   ├── hooks/                      # 自定义 hooks
+│   │   └── useTheme.ts             # 主题切换 hook（View Transition 圆形扩散动效）
+│   │
 │   ├── layout/                     # 应用布局
 │   │   ├── index.vue               # 主布局组件（标题栏 + 侧边栏 + 内容区）
 │   │   └── components/
@@ -121,6 +123,7 @@
 │   │
 │   ├── styles/
 │   │   ├── index.scss              # 全局样式（body 字体、背景色、.app-content）
+│   │   ├── theme-transition.scss   # 主题切换圆形扩散动效（View Transition + keyframes）
 │   │   └── element-plus/
 │   │       ├── el-theme-light.scss # 亮色主题 SCSS 变量覆盖（主色 #0077ff、竹绿、霞光橙等）
 │   │       └── el-theme-dark.scss  # 暗色模式 CSS 变量引入

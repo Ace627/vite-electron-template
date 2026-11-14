@@ -1,4 +1,5 @@
 @use '@/styles/element-plus/el-theme-dark.scss';
+@use './theme-transition.scss';
 
 body {
   font-family: var(--el-font-family);

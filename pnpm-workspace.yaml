@@ -16,3 +16,5 @@ shamefullyHoist: true
 
 # v11 起 packageManagerStrict 已移除，等价替代：版本不符时只警告不中断
 pmOnFail: warn
+minimumReleaseAgeExclude:
+  - vue-router@5.5.1

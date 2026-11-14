@@ -53,20 +53,23 @@ const versions = computed(() => window.app?.versions ?? {})
 const platform = computed(() => window.app?.platform ?? '')
 const arch = computed(() => window.app?.arch ?? '')
 
+const deps: Record<string, string> = { ...pkg.dependencies, ...pkg.devDependencies }
+const majorOf = (name: string): string => deps[name]?.match(/\d+/)?.[0] ?? '-'
+
 const overviewCards = [
   { icon: 'Cpu', label: '版本', value: pkg.version || '0.0.0' },
-  { icon: 'Expand', label: '平台', value: 'Electron 43' },
+  { icon: 'Expand', label: '平台', value: `Electron ${majorOf('electron')}` },
   { icon: 'Fold', label: '视图层', value: 'Vue 3' },
   { icon: 'Plus', label: 'UI 库', value: 'Element Plus' },
 ]
 
 const techStack = [
-  { name: '构建工具', version: 'Vite 8' },
+  { name: '构建工具', version: `Vite ${majorOf('vite')}` },
   { name: '前端框架', version: 'Vue 3 + TS' },
   { name: 'UI 组件库', version: 'Element Plus' },
-  { name: '状态管理', version: 'Pinia 3' },
-  { name: '路由', version: 'Vue Router 5' },
-  { name: '桌面框架', version: 'Electron 43' },
+  { name: '状态管理', version: `Pinia ${majorOf('pinia')}` },
+  { name: '路由', version: `Vue Router ${majorOf('vue-router')}` },
+  { name: '桌面框架', version: `Electron ${majorOf('electron')}` },
 ]
 
 const envInfo = [
