@@ -48,12 +48,13 @@
 ├── index.html                     # 入口 HTML（Vite 标题占位符 %VITE_APP_TITLE%）
 ├── package.json                   # 项目依赖和脚本
 ├── tsconfig.json                  # TS 根配置（引用子配置）
-├── tsconfig.app.json              # TS 应用配置（前端，严格模式）
-├── tsconfig.node.json             # TS Node 配置（构建工具）
 ├── uno.config.ts                  # UnoCSS 配置（Wind3 预设 + 自定义规则 + 快捷方式）
 ├── vite.config.ts                 # Vite 构建配置（路径别名、插件、SCSS 注入、Rolldown）
 │
 ├── build/
+│   ├── config/
+│   │   ├── tsconfig.app.json       # TS 应用配置（前端，严格模式）
+│   │   └── tsconfig.node.json      # TS Node 配置（构建工具）
 │   └── plugins/
 │       ├── index.ts                # Vite 插件统一注册入口
 │       ├── auto-import-plugin.ts   # unplugin-auto-import + unplugin-vue-components 配置

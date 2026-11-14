@@ -1,0 +1,18 @@
+allowBuilds:
+  '@parcel/watcher': true
+  electron-winstaller: true
+
+# 默认镜像源（v11+ 用 registries.default 替代 .npmrc 的 registry）
+registries:
+  default: https://registry.npmmirror.com
+
+# pnpm 设置：v11+ 不再从 .npmrc 读取，键名使用驼峰式
+lockfile: true
+fetchRetries: 2
+saveExact: true
+engineStrict: false
+enablePrePostScripts: true
+shamefullyHoist: true
+
+# v11 起 packageManagerStrict 已移除，等价替代：版本不符时只警告不中断
+pmOnFail: warn

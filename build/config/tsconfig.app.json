@@ -10,7 +10,7 @@
      * 作用：存储增量编译的缓存信息，加快后续构建速度（Vite/TSC 复用缓存）
      * 路径：临时存放在 node_modules/.tmp 下，避免污染源码目录
      */
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "tsBuildInfoFile": "../../node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     /**
      * 引入的全局类型声明文件
@@ -31,7 +31,7 @@
      * @note 需配合 Vite 配置文件中的 resolve.alias 同步配置，否则运行时会报错
      */
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["../../src/*"]
     },
 
     /**
@@ -72,5 +72,5 @@
   },
 
   // 定义希望被编译的文件所在的目录 ** 代表任意目录 * 代表任意文件
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["../../src/**/*.ts", "../../src/**/*.tsx", "../../src/**/*.vue"]
 }

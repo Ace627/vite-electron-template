@@ -5,11 +5,11 @@ import { defineConfig, presetAttributify, presetWind3 } from 'unocss'
  * UnoCSS 样式速查表 https://unocss.dev/interactive
  */
 export default defineConfig({
-  cache: true,
-
   content: {
-    include: ['src/**/*.{vue,html,ts,tsx}'],
-    exclude: ['node_modules', 'dist', '.git', '.vscode', 'public', 'build', 'config', '.github', 'types'],
+    filesystem: ['src/**/*.{vue,ts,tsx}'], // 启动即全量收集 token，冷启动不再缺规则
+    pipeline: {
+      exclude: ['node_modules', 'dist', '.git', '.vscode', 'public', 'build', 'config', '.github', 'types'],
+    },
   },
 
   presets: [
@@ -18,18 +18,11 @@ export default defineConfig({
   ],
 
   /** 规则定义工具类和生成的 CSS。UnoCSS 有许多内置规则，但也允许轻松添加自定义规则 https://unocss.nodejs.cn/config/rules */
-  rules: [
-    [/wh-(.+)$/, ([, d]) => ({ width: `${d}`, height: `${d}` })],
-    [/mtb-(.+)$/, ([, d]) => ({ margin: `${d} 0` })],
-    [/mlr-(.+)$/, ([, d]) => ({ margin: `0 ${d}` })],
-    [/ptb-(.+)$/, ([, d]) => ({ padding: `${d} 0` })],
-    [/plr-(.+)$/, ([, d]) => ({ padding: `0 ${d}` })],
-  ],
+  rules: [[/wh-(.+)$/, ([, d]) => ({ width: `${d}`, height: `${d}` })]],
 
   /** 受 Windi CSS 的 启发，快捷方式可让你将多个规则组合成一个简写 https://unocss.nodejs.cn/config/shortcuts */
   shortcuts: {
-    'wh-full': 'w-full h-full', // 宽高百分比铺满
-    'wh-screen': 'w-screen h-screen', // 宽高视口铺满
+    'wh-full': 'w-full h-full',
     'flex-center': 'flex justify-center items-center', // 利用 flex 使子元素垂直水平居中
     clearFix: 'before:content-empty before:table before:clear-both after:content-empty after:table after:clear-both', // 同时解决高度塌陷和外边距折叠的问题
   },

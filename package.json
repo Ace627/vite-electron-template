@@ -2,6 +2,7 @@
   "name": "vite-electron-template",
   "private": true,
   "version": "0.0.1",
+  "packageManager": "pnpm@12.18.0",
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
